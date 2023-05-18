@@ -53,12 +53,14 @@ class _MyHomePageState extends State<MyHomePage> {
   // in the initState method.
   late Future<Platform> platform;
   late Future<bool> isRelease;
+  late Future<String> hello;
 
   @override
   void initState() {
     super.initState();
     platform = api.platform();
     isRelease = api.rustReleaseMode();
+    hello = api.hello();
   }
 
   @override
@@ -106,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
             FutureBuilder<List<dynamic>>(
               // We await two unrelated futures here, so the type has to be
               // List<dynamic>.
-              future: Future.wait([platform, isRelease]),
+              future: Future.wait([platform, isRelease, hello]),
               builder: (context, snap) {
                 final style = Theme.of(context).textTheme.headlineMedium;
                 if (snap.error != null) {
@@ -127,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // to the FutureBuilder.future.
                 final Platform platform = data[0];
                 final release = data[1] ? 'Release' : 'Debug';
-                final text = const {
+                final text =  {
                       Platform.Android: 'Android',
                       Platform.Ios: 'iOS',
                       Platform.MacApple: 'MacOS with Apple Silicon',
@@ -137,7 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       Platform.Wasm: 'the Web',
                     }[platform] ??
                     'Unknown OS';
-                return Text('$text ($release)', style: style);
+                return Column(
+                  children: [
+                    Text('$text ($release)', style: style),
+                    Text('${data[2]}', style: style),
+                  ],
+                );
               },
             )
           ],

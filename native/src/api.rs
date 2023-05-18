@@ -57,3 +57,7 @@ pub fn platform() -> Platform {
 pub fn rust_release_mode() -> bool {
     cfg!(not(debug_assertions))
 }
+
+pub fn hello() -> String {
+    "Hello from Rust!".to_owned()
+}
