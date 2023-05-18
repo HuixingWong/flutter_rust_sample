@@ -61,6 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
     platform = api.platform();
     isRelease = api.rustReleaseMode();
     hello = api.hello();
+    api.quicksortTest();
   }
 
   @override
@@ -129,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 // to the FutureBuilder.future.
                 final Platform platform = data[0];
                 final release = data[1] ? 'Release' : 'Debug';
-                final text =  {
+                final text = {
                       Platform.Android: 'Android',
                       Platform.Ios: 'iOS',
                       Platform.MacApple: 'MacOS with Apple Silicon',
@@ -143,6 +144,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Text('$text ($release)', style: style),
                     Text('${data[2]}', style: style),
+                    TextButton(
+                        onPressed: () {
+                          api.quicksortTest();
+                        },
+                        child: const Text('test rust quick sort')),
                   ],
                 );
               },

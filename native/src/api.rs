@@ -61,3 +61,37 @@ pub fn rust_release_mode() -> bool {
 pub fn hello() -> String {
     "Hello from Rust!".to_owned()
 }
+
+// test quciksort
+pub fn quicksort_test() {
+    let mut arr = [5, 4, 3, 2, 1];
+    quicksort(&mut arr);
+    println!("fucking rust quick sort: {:?}", arr);
+}
+
+fn quicksort<T: Ord>(arr: &mut [T]) {
+    if arr.len() <= 1 {
+        return;
+    }
+
+    let pivot_index = partition(arr);
+
+    let (left, right) = arr.split_at_mut(pivot_index);
+    quicksort(left);
+    quicksort(&mut right[1..]);
+}
+
+fn partition<T: Ord>(arr: &mut [T]) -> usize {
+    let pivot_index = arr.len() - 1;
+    let mut i = 0;
+
+    for j in 0..pivot_index {
+        if arr[j] <= arr[pivot_index] {
+            arr.swap(i, j);
+            i += 1;
+        }
+    }
+
+    arr.swap(i, pivot_index);
+    i
+}

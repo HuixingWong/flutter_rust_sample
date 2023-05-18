@@ -51,6 +51,16 @@ fn wire_hello_impl(port_: MessagePort) {
         move || move |task_callback| Ok(hello()),
     )
 }
+fn wire_quicksort_test_impl(port_: MessagePort) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "quicksort_test",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || move |task_callback| Ok(quicksort_test()),
+    )
+}
 // Section: wrapper structs
 
 // Section: static checks

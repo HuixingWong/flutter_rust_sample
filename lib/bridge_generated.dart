@@ -22,6 +22,10 @@ abstract class Native {
   Future<String> hello({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kHelloConstMeta;
+
+  Future<void> quicksortTest({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kQuicksortTestConstMeta;
 }
 
 enum Platform {
@@ -92,6 +96,22 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
+  Future<void> quicksortTest({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_quicksort_test(port_),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kQuicksortTestConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kQuicksortTestConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "quicksort_test",
+        argNames: [],
+      );
+
   void dispose() {
     _platform.dispose();
   }
@@ -119,6 +139,10 @@ class NativeImpl implements Native {
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
     return raw as Uint8List;
+  }
+
+  void _wire2api_unit(dynamic raw) {
+    return;
   }
 }
 
@@ -271,6 +295,20 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_helloPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_hello');
   late final _wire_hello = _wire_helloPtr.asFunction<void Function(int)>();
+
+  void wire_quicksort_test(
+    int port_,
+  ) {
+    return _wire_quicksort_test(
+      port_,
+    );
+  }
+
+  late final _wire_quicksort_testPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>(
+          'wire_quicksort_test');
+  late final _wire_quicksort_test =
+      _wire_quicksort_testPtr.asFunction<void Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,

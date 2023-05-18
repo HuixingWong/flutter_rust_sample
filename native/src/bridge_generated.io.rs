@@ -16,6 +16,11 @@ pub extern "C" fn wire_hello(port_: i64) {
     wire_hello_impl(port_)
 }
 
+#[no_mangle]
+pub extern "C" fn wire_quicksort_test(port_: i64) {
+    wire_quicksort_test_impl(port_)
+}
+
 // Section: allocate functions
 
 // Section: related functions
