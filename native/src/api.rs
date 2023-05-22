@@ -59,7 +59,12 @@ pub fn rust_release_mode() -> bool {
 }
 
 pub fn hello() -> String {
-    "Hello from Rust!".to_owned()
+    print!("cao: {}", "fucking");
+    "Hello from cao Rust!".to_owned()
+}
+
+pub fn draw_tree(tree: Vec<u32>) -> Vec<u32> {
+    tree
 }
 
 // test quciksort

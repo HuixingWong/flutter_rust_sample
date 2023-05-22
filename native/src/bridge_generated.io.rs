@@ -17,17 +17,46 @@ pub extern "C" fn wire_hello(port_: i64) {
 }
 
 #[no_mangle]
+pub extern "C" fn wire_draw_tree(port_: i64, tree: *mut wire_uint_32_list) {
+    wire_draw_tree_impl(port_, tree)
+}
+
+#[no_mangle]
 pub extern "C" fn wire_quicksort_test(port_: i64) {
     wire_quicksort_test_impl(port_)
 }
 
 // Section: allocate functions
 
+#[no_mangle]
+pub extern "C" fn new_uint_32_list_0(len: i32) -> *mut wire_uint_32_list {
+    let ans = wire_uint_32_list {
+        ptr: support::new_leak_vec_ptr(Default::default(), len),
+        len,
+    };
+    support::new_leak_box_ptr(ans)
+}
+
 // Section: related functions
 
 // Section: impl Wire2Api
 
+impl Wire2Api<Vec<u32>> for *mut wire_uint_32_list {
+    fn wire2api(self) -> Vec<u32> {
+        unsafe {
+            let wrap = support::box_from_leak_ptr(self);
+            support::vec_from_leak_ptr(wrap.ptr, wrap.len)
+        }
+    }
+}
 // Section: wire structs
+
+#[repr(C)]
+#[derive(Clone)]
+pub struct wire_uint_32_list {
+    ptr: *mut u32,
+    len: i32,
+}
 
 // Section: impl NewWithNullPtr
 

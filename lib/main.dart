@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'ffi.dart' if (dart.library.html) 'ffi_web.dart';
 
@@ -62,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     isRelease = api.rustReleaseMode();
     hello = api.hello();
     api.quicksortTest();
+    api.drawTree(tree: Uint32List(10));
   }
 
   @override

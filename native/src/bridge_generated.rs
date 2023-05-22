@@ -51,6 +51,19 @@ fn wire_hello_impl(port_: MessagePort) {
         move || move |task_callback| Ok(hello()),
     )
 }
+fn wire_draw_tree_impl(port_: MessagePort, tree: impl Wire2Api<Vec<u32>> + UnwindSafe) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap(
+        WrapInfo {
+            debug_name: "draw_tree",
+            port: Some(port_),
+            mode: FfiCallMode::Normal,
+        },
+        move || {
+            let api_tree = tree.wire2api();
+            move |task_callback| Ok(draw_tree(api_tree))
+        },
+    )
+}
 fn wire_quicksort_test_impl(port_: MessagePort) {
     FLUTTER_RUST_BRIDGE_HANDLER.wrap(
         WrapInfo {
@@ -83,6 +96,12 @@ where
         (!self.is_null()).then(|| self.wire2api())
     }
 }
+impl Wire2Api<u32> for u32 {
+    fn wire2api(self) -> u32 {
+        self
+    }
+}
+
 // Section: impl IntoDart
 
 impl support::IntoDart for Platform {

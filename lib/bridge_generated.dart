@@ -23,6 +23,10 @@ abstract class Native {
 
   FlutterRustBridgeTaskConstMeta get kHelloConstMeta;
 
+  Future<Uint32List> drawTree({required Uint32List tree, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDrawTreeConstMeta;
+
   Future<void> quicksortTest({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kQuicksortTestConstMeta;
@@ -96,6 +100,23 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
+  Future<Uint32List> drawTree({required Uint32List tree, dynamic hint}) {
+    var arg0 = _platform.api2wire_uint_32_list(tree);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_draw_tree(port_, arg0),
+      parseSuccessData: _wire2api_uint_32_list,
+      constMeta: kDrawTreeConstMeta,
+      argValues: [tree],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDrawTreeConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "draw_tree",
+        argNames: ["tree"],
+      );
+
   Future<void> quicksortTest({dynamic hint}) {
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_quicksort_test(port_),
@@ -133,8 +154,16 @@ class NativeImpl implements Native {
     return Platform.values[raw as int];
   }
 
+  int _wire2api_u32(dynamic raw) {
+    return raw as int;
+  }
+
   int _wire2api_u8(dynamic raw) {
     return raw as int;
+  }
+
+  Uint32List _wire2api_uint_32_list(dynamic raw) {
+    return raw as Uint32List;
   }
 
   Uint8List _wire2api_uint_8_list(dynamic raw) {
@@ -148,6 +177,11 @@ class NativeImpl implements Native {
 
 // Section: api2wire
 
+@protected
+int api2wire_u32(int raw) {
+  return raw;
+}
+
 // Section: finalizer
 
 class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
@@ -155,6 +189,12 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
 
 // Section: api2wire
 
+  @protected
+  ffi.Pointer<wire_uint_32_list> api2wire_uint_32_list(Uint32List raw) {
+    final ans = inner.new_uint_32_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
 // Section: finalizer
 
 // Section: api_fill_to_wire
@@ -296,6 +336,23 @@ class NativeWire implements FlutterRustBridgeWireBase {
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_hello');
   late final _wire_hello = _wire_helloPtr.asFunction<void Function(int)>();
 
+  void wire_draw_tree(
+    int port_,
+    ffi.Pointer<wire_uint_32_list> tree,
+  ) {
+    return _wire_draw_tree(
+      port_,
+      tree,
+    );
+  }
+
+  late final _wire_draw_treePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_32_list>)>>('wire_draw_tree');
+  late final _wire_draw_tree = _wire_draw_treePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_32_list>)>();
+
   void wire_quicksort_test(
     int port_,
   ) {
@@ -309,6 +366,21 @@ class NativeWire implements FlutterRustBridgeWireBase {
           'wire_quicksort_test');
   late final _wire_quicksort_test =
       _wire_quicksort_testPtr.asFunction<void Function(int)>();
+
+  ffi.Pointer<wire_uint_32_list> new_uint_32_list_0(
+    int len,
+  ) {
+    return _new_uint_32_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_32_list_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_uint_32_list> Function(
+              ffi.Int32)>>('new_uint_32_list_0');
+  late final _new_uint_32_list_0 = _new_uint_32_list_0Ptr
+      .asFunction<ffi.Pointer<wire_uint_32_list> Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -326,6 +398,13 @@ class NativeWire implements FlutterRustBridgeWireBase {
 }
 
 class _Dart_Handle extends ffi.Opaque {}
+
+class wire_uint_32_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint32> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
 
 typedef DartPostCObjectFnType = ffi.Pointer<
     ffi.NativeFunction<ffi.Bool Function(DartPort, ffi.Pointer<ffi.Void>)>>;
