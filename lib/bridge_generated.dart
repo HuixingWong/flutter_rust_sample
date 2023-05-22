@@ -30,6 +30,80 @@ abstract class Native {
   Future<void> quicksortTest({dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kQuicksortTestConstMeta;
+
+  Future<void> fucking({dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kFuckingConstMeta;
+
+  Future<AvifInfo> initMemoryDecoder(
+      {required String key, required Uint8List avifBytes, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kInitMemoryDecoderConstMeta;
+
+  Future<bool> resetDecoder({required String key, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kResetDecoderConstMeta;
+
+  Future<bool> disposeDecoder({required String key, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kDisposeDecoderConstMeta;
+
+  Future<Frame> getNextFrame({required String key, dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kGetNextFrameConstMeta;
+
+  Future<Uint8List> encodeAvif(
+      {required int width,
+      required int height,
+      required int speed,
+      required int maxThreads,
+      required int timescale,
+      required int maxQuantizer,
+      required int minQuantizer,
+      required int maxQuantizerAlpha,
+      required int minQuantizerAlpha,
+      required List<EncodeFrame> imageSequence,
+      dynamic hint});
+
+  FlutterRustBridgeTaskConstMeta get kEncodeAvifConstMeta;
+}
+
+class AvifInfo {
+  final int width;
+  final int height;
+  final int imageCount;
+  final double duration;
+
+  const AvifInfo({
+    required this.width,
+    required this.height,
+    required this.imageCount,
+    required this.duration,
+  });
+}
+
+class EncodeFrame {
+  final Uint8List data;
+  final int durationInTimescale;
+
+  const EncodeFrame({
+    required this.data,
+    required this.durationInTimescale,
+  });
+}
+
+class Frame {
+  final Uint8List data;
+  final double duration;
+  final int width;
+  final int height;
+
+  const Frame({
+    required this.data,
+    required this.duration,
+    required this.width,
+    required this.height,
+  });
 }
 
 enum Platform {
@@ -133,6 +207,153 @@ class NativeImpl implements Native {
         argNames: [],
       );
 
+  Future<void> fucking({dynamic hint}) {
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_fucking(port_),
+      parseSuccessData: _wire2api_unit,
+      constMeta: kFuckingConstMeta,
+      argValues: [],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kFuckingConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "fucking",
+        argNames: [],
+      );
+
+  Future<AvifInfo> initMemoryDecoder(
+      {required String key, required Uint8List avifBytes, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(key);
+    var arg1 = _platform.api2wire_uint_8_list(avifBytes);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) =>
+          _platform.inner.wire_init_memory_decoder(port_, arg0, arg1),
+      parseSuccessData: _wire2api_avif_info,
+      constMeta: kInitMemoryDecoderConstMeta,
+      argValues: [key, avifBytes],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kInitMemoryDecoderConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "init_memory_decoder",
+        argNames: ["key", "avifBytes"],
+      );
+
+  Future<bool> resetDecoder({required String key, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(key);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_reset_decoder(port_, arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kResetDecoderConstMeta,
+      argValues: [key],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kResetDecoderConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "reset_decoder",
+        argNames: ["key"],
+      );
+
+  Future<bool> disposeDecoder({required String key, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(key);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_dispose_decoder(port_, arg0),
+      parseSuccessData: _wire2api_bool,
+      constMeta: kDisposeDecoderConstMeta,
+      argValues: [key],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kDisposeDecoderConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "dispose_decoder",
+        argNames: ["key"],
+      );
+
+  Future<Frame> getNextFrame({required String key, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(key);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_get_next_frame(port_, arg0),
+      parseSuccessData: _wire2api_frame,
+      constMeta: kGetNextFrameConstMeta,
+      argValues: [key],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kGetNextFrameConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "get_next_frame",
+        argNames: ["key"],
+      );
+
+  Future<Uint8List> encodeAvif(
+      {required int width,
+      required int height,
+      required int speed,
+      required int maxThreads,
+      required int timescale,
+      required int maxQuantizer,
+      required int minQuantizer,
+      required int maxQuantizerAlpha,
+      required int minQuantizerAlpha,
+      required List<EncodeFrame> imageSequence,
+      dynamic hint}) {
+    var arg0 = api2wire_u32(width);
+    var arg1 = api2wire_u32(height);
+    var arg2 = api2wire_i32(speed);
+    var arg3 = api2wire_i32(maxThreads);
+    var arg4 = _platform.api2wire_u64(timescale);
+    var arg5 = api2wire_i32(maxQuantizer);
+    var arg6 = api2wire_i32(minQuantizer);
+    var arg7 = api2wire_i32(maxQuantizerAlpha);
+    var arg8 = api2wire_i32(minQuantizerAlpha);
+    var arg9 = _platform.api2wire_list_encode_frame(imageSequence);
+    return _platform.executeNormal(FlutterRustBridgeTask(
+      callFfi: (port_) => _platform.inner.wire_encode_avif(
+          port_, arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9),
+      parseSuccessData: _wire2api_ZeroCopyBuffer_Uint8List,
+      constMeta: kEncodeAvifConstMeta,
+      argValues: [
+        width,
+        height,
+        speed,
+        maxThreads,
+        timescale,
+        maxQuantizer,
+        minQuantizer,
+        maxQuantizerAlpha,
+        minQuantizerAlpha,
+        imageSequence
+      ],
+      hint: hint,
+    ));
+  }
+
+  FlutterRustBridgeTaskConstMeta get kEncodeAvifConstMeta =>
+      const FlutterRustBridgeTaskConstMeta(
+        debugName: "encode_avif",
+        argNames: [
+          "width",
+          "height",
+          "speed",
+          "maxThreads",
+          "timescale",
+          "maxQuantizer",
+          "minQuantizer",
+          "maxQuantizerAlpha",
+          "minQuantizerAlpha",
+          "imageSequence"
+        ],
+      );
+
   void dispose() {
     _platform.dispose();
   }
@@ -142,8 +363,40 @@ class NativeImpl implements Native {
     return raw as String;
   }
 
+  Uint8List _wire2api_ZeroCopyBuffer_Uint8List(dynamic raw) {
+    return raw as Uint8List;
+  }
+
+  AvifInfo _wire2api_avif_info(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return AvifInfo(
+      width: _wire2api_u32(arr[0]),
+      height: _wire2api_u32(arr[1]),
+      imageCount: _wire2api_u32(arr[2]),
+      duration: _wire2api_f64(arr[3]),
+    );
+  }
+
   bool _wire2api_bool(dynamic raw) {
     return raw as bool;
+  }
+
+  double _wire2api_f64(dynamic raw) {
+    return raw as double;
+  }
+
+  Frame _wire2api_frame(dynamic raw) {
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return Frame(
+      data: _wire2api_ZeroCopyBuffer_Uint8List(arr[0]),
+      duration: _wire2api_f64(arr[1]),
+      width: _wire2api_u32(arr[2]),
+      height: _wire2api_u32(arr[3]),
+    );
   }
 
   int _wire2api_i32(dynamic raw) {
@@ -178,7 +431,17 @@ class NativeImpl implements Native {
 // Section: api2wire
 
 @protected
+int api2wire_i32(int raw) {
+  return raw;
+}
+
+@protected
 int api2wire_u32(int raw) {
+  return raw;
+}
+
+@protected
+int api2wire_u8(int raw) {
   return raw;
 }
 
@@ -190,8 +453,35 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
 // Section: api2wire
 
   @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_String(String raw) {
+    return api2wire_uint_8_list(utf8.encoder.convert(raw));
+  }
+
+  @protected
+  ffi.Pointer<wire_list_encode_frame> api2wire_list_encode_frame(
+      List<EncodeFrame> raw) {
+    final ans = inner.new_list_encode_frame_0(raw.length);
+    for (var i = 0; i < raw.length; ++i) {
+      _api_fill_to_wire_encode_frame(raw[i], ans.ref.ptr[i]);
+    }
+    return ans;
+  }
+
+  @protected
+  int api2wire_u64(int raw) {
+    return raw;
+  }
+
+  @protected
   ffi.Pointer<wire_uint_32_list> api2wire_uint_32_list(Uint32List raw) {
     final ans = inner.new_uint_32_list_0(raw.length);
+    ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
+    return ans;
+  }
+
+  @protected
+  ffi.Pointer<wire_uint_8_list> api2wire_uint_8_list(Uint8List raw) {
+    final ans = inner.new_uint_8_list_0(raw.length);
     ans.ref.ptr.asTypedList(raw.length).setAll(0, raw);
     return ans;
   }
@@ -199,6 +489,11 @@ class NativePlatform extends FlutterRustBridgeBase<NativeWire> {
 
 // Section: api_fill_to_wire
 
+  void _api_fill_to_wire_encode_frame(
+      EncodeFrame apiObj, wire_EncodeFrame wireObj) {
+    wireObj.data = api2wire_uint_8_list(apiObj.data);
+    wireObj.duration_in_timescale = api2wire_u64(apiObj.durationInTimescale);
+  }
 }
 
 // ignore_for_file: camel_case_types, non_constant_identifier_names, avoid_positional_boolean_parameters, annotate_overrides, constant_identifier_names
@@ -367,6 +662,151 @@ class NativeWire implements FlutterRustBridgeWireBase {
   late final _wire_quicksort_test =
       _wire_quicksort_testPtr.asFunction<void Function(int)>();
 
+  void wire_fucking(
+    int port_,
+  ) {
+    return _wire_fucking(
+      port_,
+    );
+  }
+
+  late final _wire_fuckingPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int64)>>('wire_fucking');
+  late final _wire_fucking = _wire_fuckingPtr.asFunction<void Function(int)>();
+
+  void wire_init_memory_decoder(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> key,
+    ffi.Pointer<wire_uint_8_list> avif_bytes,
+  ) {
+    return _wire_init_memory_decoder(
+      port_,
+      key,
+      avif_bytes,
+    );
+  }
+
+  late final _wire_init_memory_decoderPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_init_memory_decoder');
+  late final _wire_init_memory_decoder =
+      _wire_init_memory_decoderPtr.asFunction<
+          void Function(int, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_reset_decoder(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> key,
+  ) {
+    return _wire_reset_decoder(
+      port_,
+      key,
+    );
+  }
+
+  late final _wire_reset_decoderPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_reset_decoder');
+  late final _wire_reset_decoder = _wire_reset_decoderPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_dispose_decoder(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> key,
+  ) {
+    return _wire_dispose_decoder(
+      port_,
+      key,
+    );
+  }
+
+  late final _wire_dispose_decoderPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_dispose_decoder');
+  late final _wire_dispose_decoder = _wire_dispose_decoderPtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_get_next_frame(
+    int port_,
+    ffi.Pointer<wire_uint_8_list> key,
+  ) {
+    return _wire_get_next_frame(
+      port_,
+      key,
+    );
+  }
+
+  late final _wire_get_next_framePtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(ffi.Int64,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_get_next_frame');
+  late final _wire_get_next_frame = _wire_get_next_framePtr
+      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+
+  void wire_encode_avif(
+    int port_,
+    int width,
+    int height,
+    int speed,
+    int max_threads,
+    int timescale,
+    int max_quantizer,
+    int min_quantizer,
+    int max_quantizer_alpha,
+    int min_quantizer_alpha,
+    ffi.Pointer<wire_list_encode_frame> image_sequence,
+  ) {
+    return _wire_encode_avif(
+      port_,
+      width,
+      height,
+      speed,
+      max_threads,
+      timescale,
+      max_quantizer,
+      min_quantizer,
+      max_quantizer_alpha,
+      min_quantizer_alpha,
+      image_sequence,
+    );
+  }
+
+  late final _wire_encode_avifPtr = _lookup<
+      ffi.NativeFunction<
+          ffi.Void Function(
+              ffi.Int64,
+              ffi.Uint32,
+              ffi.Uint32,
+              ffi.Int32,
+              ffi.Int32,
+              ffi.Uint64,
+              ffi.Int32,
+              ffi.Int32,
+              ffi.Int32,
+              ffi.Int32,
+              ffi.Pointer<wire_list_encode_frame>)>>('wire_encode_avif');
+  late final _wire_encode_avif = _wire_encode_avifPtr.asFunction<
+      void Function(int, int, int, int, int, int, int, int, int, int,
+          ffi.Pointer<wire_list_encode_frame>)>();
+
+  ffi.Pointer<wire_list_encode_frame> new_list_encode_frame_0(
+    int len,
+  ) {
+    return _new_list_encode_frame_0(
+      len,
+    );
+  }
+
+  late final _new_list_encode_frame_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_list_encode_frame> Function(
+              ffi.Int32)>>('new_list_encode_frame_0');
+  late final _new_list_encode_frame_0 = _new_list_encode_frame_0Ptr
+      .asFunction<ffi.Pointer<wire_list_encode_frame> Function(int)>();
+
   ffi.Pointer<wire_uint_32_list> new_uint_32_list_0(
     int len,
   ) {
@@ -381,6 +821,21 @@ class NativeWire implements FlutterRustBridgeWireBase {
               ffi.Int32)>>('new_uint_32_list_0');
   late final _new_uint_32_list_0 = _new_uint_32_list_0Ptr
       .asFunction<ffi.Pointer<wire_uint_32_list> Function(int)>();
+
+  ffi.Pointer<wire_uint_8_list> new_uint_8_list_0(
+    int len,
+  ) {
+    return _new_uint_8_list_0(
+      len,
+    );
+  }
+
+  late final _new_uint_8_list_0Ptr = _lookup<
+      ffi.NativeFunction<
+          ffi.Pointer<wire_uint_8_list> Function(
+              ffi.Int32)>>('new_uint_8_list_0');
+  late final _new_uint_8_list_0 = _new_uint_8_list_0Ptr
+      .asFunction<ffi.Pointer<wire_uint_8_list> Function(int)>();
 
   void free_WireSyncReturn(
     WireSyncReturn ptr,
@@ -401,6 +856,27 @@ class _Dart_Handle extends ffi.Opaque {}
 
 class wire_uint_32_list extends ffi.Struct {
   external ffi.Pointer<ffi.Uint32> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_uint_8_list extends ffi.Struct {
+  external ffi.Pointer<ffi.Uint8> ptr;
+
+  @ffi.Int32()
+  external int len;
+}
+
+class wire_EncodeFrame extends ffi.Struct {
+  external ffi.Pointer<wire_uint_8_list> data;
+
+  @ffi.Uint64()
+  external int duration_in_timescale;
+}
+
+class wire_list_encode_frame extends ffi.Struct {
+  external ffi.Pointer<wire_EncodeFrame> ptr;
 
   @ffi.Int32()
   external int len;

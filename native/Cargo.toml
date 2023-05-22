@@ -11,5 +11,5 @@ crate-type = ["cdylib", "staticlib"]
 [dependencies]
 anyhow = "1"
 flutter_rust_bridge = "=1.72.0"
-libavif-sys = { version = "0.14.3", default-features = false, features = ["codec-aom"] }
+#libavif-sys = { version = "0.14.3", default-features = false, features = ["codec-aom"] }
 lazy_static = "1.4.0"
